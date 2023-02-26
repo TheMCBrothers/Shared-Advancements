@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+license = "MIT License"
+issueTrackerURL = "https://github.com/TheMCBrothers/Shared-Advancements/issues"
+
+[[mods]]
+modId = "shared_advancements"
+version = "${file.jarVersion}"
+displayName = "Shared Advancements"
+updateJSONURL="https://forge.curseupdate.com/831959/shared_advancements"
+displayURL = "https://themcbrothers.net/mods"
+#logoFile = "logo.png"
+credits = "Thanks to TheMCLoveMan for creating this mod"
+authors = "TheMCBrothers"
+displayTest = "IGNORE_SERVER_VERSION"
+
+description = '''
+Share your advancements with yourm team!
+'''
+
+[[dependencies.shared_advancements]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.shared_advancements]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,1.20)"
+ordering = "NONE"
+side = "BOTH"
