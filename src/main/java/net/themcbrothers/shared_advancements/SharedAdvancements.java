@@ -32,15 +32,16 @@ public class SharedAdvancements {
             return;
         }
 
+        boolean broadcast = SharedAdvancementsConfig.INSTANCE.broadcastAdvancements.get();
+
         Player player = event.getEntity();
         MinecraftServer server = player.getServer();
         Team team = player.getTeam();
 
-        if (server != null && team != null) {
+        if (server != null && (broadcast || team != null)) {
             skipEvent = true;
             server.getPlayerList().getPlayers().stream()
-                    .filter(serverPlayer -> SharedAdvancementsConfig.INSTANCE.broadcastAdvancements.get()
-                            || team.getPlayers().contains(serverPlayer.getScoreboardName()))
+                    .filter(serverPlayer -> broadcast || team.getPlayers().contains(serverPlayer.getScoreboardName()))
                     .forEach(serverPlayer -> serverPlayer.getAdvancements().award(event.getAdvancement(), event.getCriterionName()));
             skipEvent = false;
         }
