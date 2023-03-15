@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.AdvancementEvent;
+import net.minecraftforge.event.entity.player.AdvancementEvent.AdvancementProgressEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 
 import java.util.List;
 
-@SuppressWarnings("deprecation")
 @Mod(SharedAdvancements.MOD_ID)
 public class SharedAdvancements {
     public static final String MOD_ID = "shared_advancements";
@@ -32,7 +31,7 @@ public class SharedAdvancements {
     }
 
     @SubscribeEvent
-    public void progressAdvancements(final AdvancementEvent.AdvancementProgressEvent event) {
+    public void progressAdvancements(final AdvancementProgressEvent event) {
         if (!SharedAdvancementsConfig.INSTANCE.enabled.get() || skipEvent) {
             return;
         }
