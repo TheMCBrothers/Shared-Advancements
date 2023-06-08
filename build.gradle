@@ -176,6 +176,8 @@ if (curseForgeKey != null) {
         project {
             id = curse_project
             releaseType = artifact_type
+            changelogType = 'markdown'
+            changelog = file('changelog.md')
             addGameVersion(minecraft_version)
             mainArtifact(tasks.jar)
         }
@@ -188,6 +190,7 @@ if (modrinthToken != null) {
         token = modrinthToken
         projectId = modrinth_project
         versionType = artifact_type
+        changelog = file('changelog.md').text
         uploadFile = jar
     }
 }
