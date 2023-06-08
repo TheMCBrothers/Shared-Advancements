@@ -3,6 +3,8 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0, 6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id "com.modrinth.minotaur" version '2.+'
 }
 
 version = "$minecraft_version-$mod_version"
@@ -144,15 +146,49 @@ jar.finalizedBy('reobfJar')
 // publish.dependsOn('reobfJar')
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
+    publications { PublicationContainer publicationContainer ->
+        publicationContainer.register("maven", MavenPublication) { MavenPublication publication ->
+            publication.artifact(jar)
+            publication.version("$project.version")
+            publication.artifactId("shared-advancements")
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            credentials {
+                username = System.getenv('nexus_uname')
+                password = System.getenv('nexus_pwd')
+            }
+
+            url 'https://nexus.themcbrothers.net/repository/maven-releases/'
         }
+    }
+}
+
+var curseForgeKey = System.getenv('cf_key')
+var modrinthToken = System.getenv('modrinth_token')
+
+// Publish to CurseForge
+if (curseForgeKey != null) {
+    curseforge {
+        apiKey = curseForgeKey
+
+        project {
+            id = curse_project
+            releaseType = artifact_type
+            addGameVersion(minecraft_version)
+            mainArtifact(tasks.jar)
+        }
+    }
+}
+
+// Publish to Modrinth
+if (modrinthToken != null) {
+    modrinth {
+        token = modrinthToken
+        projectId = modrinth_project
+        versionType = artifact_type
+        uploadFile = jar
     }
 }
 
