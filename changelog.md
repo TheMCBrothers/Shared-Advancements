@@ -1,3 +1,11 @@
+## 1.0.3
+
+- Updated to 1.19.4
+
+## 1.0.2
+
+- Updated to 1.19.3
+
 ## 1.0.1
 
 - When a player connects to a server, all advancements
