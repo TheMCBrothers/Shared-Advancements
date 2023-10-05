@@ -1,7 +1,7 @@
 package net.themcbrothers.shared_advancements;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -79,11 +79,11 @@ public class SharedAdvancements {
             return;
         }
 
-        for (Advancement advancement : server.getAdvancements().getAllAdvancements()) {
+        for (AdvancementHolder advancement : server.getAdvancements().getAllAdvancements()) {
             List<String> firstCompleted = (List<String>) first.getAdvancements().getOrStartProgress(advancement).getCompletedCriteria();
             List<String> secondCompleted = (List<String>) second.getAdvancements().getOrStartProgress(advancement).getCompletedCriteria();
 
-            for (String criterion : advancement.getCriteria().keySet()) {
+            for (String criterion : advancement.value().criteria().keySet()) {
                 if (firstCompleted.contains(criterion) && !secondCompleted.contains(criterion)) {
                     second.getAdvancements().award(advancement, criterion);
                 } else if (!firstCompleted.contains(criterion) && secondCompleted.contains(criterion)) {
