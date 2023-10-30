@@ -5,7 +5,7 @@ issueTrackerURL = "https://github.com/TheMCBrothers/Shared-Advancements/issues"
 
 [[mods]]
     modId = "${mod_id}"
-    version = "${file.jarVersion}"
+    version = "${mod_version}"
     displayName = "${mod_name}"
     updateJSONURL = "https://forge.curseupdate.com/${curse_project}/${mod_id}"
     displayURL = "https://themcbrothers.net/mods"
