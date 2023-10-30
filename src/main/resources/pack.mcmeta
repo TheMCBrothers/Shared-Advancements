@@ -1,6 +1,8 @@
 {
     "pack": {
-        "description": "Shared Advancements resources",
-        "pack_format": 15
+        "description": {
+            "text": "${mod_name} resources"
+        },
+        "pack_format": ${pack_format_number}
     }
 }

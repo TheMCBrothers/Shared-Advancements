@@ -1,25 +1,25 @@
 package net.themcbrothers.shared_advancements;
 
 import com.electronwill.nightconfig.core.Config;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class SharedAdvancementsConfig {
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec SPEC;
     public static final SharedAdvancementsConfig INSTANCE;
 
     static {
         Config.setInsertionOrderPreserved(true);
 
-        Pair<SharedAdvancementsConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(SharedAdvancementsConfig::new);
+        Pair<SharedAdvancementsConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(SharedAdvancementsConfig::new);
         SPEC = specPair.getRight();
         INSTANCE = specPair.getLeft();
     }
 
-    public final ForgeConfigSpec.BooleanValue enabled;
-    public final ForgeConfigSpec.BooleanValue broadcastAdvancements;
+    public final ModConfigSpec.BooleanValue enabled;
+    public final ModConfigSpec.BooleanValue broadcastAdvancements;
 
-    private SharedAdvancementsConfig(ForgeConfigSpec.Builder config) {
+    private SharedAdvancementsConfig(ModConfigSpec.Builder config) {
         config.comment("Common Configuration for Shared Advancements").push("options");
 
         enabled = config

@@ -6,13 +6,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.Team;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.AdvancementEvent.AdvancementProgressEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -26,12 +26,12 @@ public class SharedAdvancements {
 
     public SharedAdvancements() {
         LOGGER.info("Loading Shared Advancements");
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SharedAdvancementsConfig.SPEC);
     }
 
     @SubscribeEvent
-    public void progressAdvancements(final AdvancementProgressEvent event) {
+    public void progressAdvancements(final AdvancementEvent.AdvancementProgressEvent event) {
         if (!SharedAdvancementsConfig.INSTANCE.enabled.get() || skipEvent) {
             return;
         }
