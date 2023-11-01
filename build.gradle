@@ -3,9 +3,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.+'
-//    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id "com.modrinth.minotaur" version '2.+'
+    id 'me.modmuss50.mod-publish-plugin' version '0.4.+'
 }
 
 version = "$minecraft_version-$mod_version"
@@ -103,33 +101,36 @@ publishing {
     }
 }
 
-var curseForgeKey = System.getenv('cf_key')
-var modrinthToken = System.getenv('modrinth_token')
+var curseForgeKey = providers.environmentVariable('cf_key')
+var modrinthToken = providers.environmentVariable('modrinth_token')
 
-// Publish to CurseForge
-if (curseForgeKey != null) {
-    curseforge {
-        apiKey = curseForgeKey
+publishMods {
+    file = jar.archiveFile
+    changelog = file('changelog.md').text
+    type = artifact_type == 'release' ? STABLE : artifact_type == 'beta' ? BETA : ALPHA
+    dryRun = true
 
-        project {
-            id = curse_project
-            releaseType = artifact_type
-            changelogType = 'markdown'
-            changelog = file('changelog.md')
-            addGameVersion(minecraft_version)
-            mainArtifact(tasks.jar)
+    modLoaders.add("neoforge")
+
+    // Publish to CurseForge
+    if (curseForgeKey.isPresent()) {
+        curseforge {
+            accessToken = curseForgeKey
+            projectId = curse_project
+            displayName = "S.A. $version"
+            minecraftVersions.add(minecraft_version)
+            minecraftVersions.add("server")
         }
     }
-}
 
-// Publish to Modrinth
-if (modrinthToken != null) {
-    modrinth {
-        token = modrinthToken
-        projectId = modrinth_project
-        versionType = artifact_type
-        changelog = file('changelog.md').text
-        uploadFile = jar
+    // Publish to Modrinth
+    if (modrinthToken.isPresent()) {
+        modrinth {
+            accessToken = modrinthToken
+            projectId = modrinth_project
+            displayName = version
+            minecraftVersions.add(minecraft_version)
+        }
     }
 }
 
