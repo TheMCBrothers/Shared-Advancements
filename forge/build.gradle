@@ -86,12 +86,6 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
-tasks.withType(Javadoc).configureEach {
-    source(project(":common").sourceSets.main.allJava)
-}
-tasks.named("sourcesJar", Jar) {
-    from(project(":common").sourceSets.main.allSource)
-}
 
 processResources {
     from project(":common").sourceSets.main.resources
@@ -129,7 +123,7 @@ unifiedPublishing {
 
         var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
         var modrinthToken = System.getenv("MODRINTH_TOKEN")
-        var changelogFile = file("changelog.md").text
+        var changelogFile = rootProject.file("changelog.md").text
 
         if (curseforgeToken != null) {
             curseforge {
