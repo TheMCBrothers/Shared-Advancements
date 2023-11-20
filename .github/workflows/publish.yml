@@ -2,12 +2,8 @@ name: Publish
 
 on:
   push:
-    branches-ignore:
-      - '**-dev'
-    paths:
-      - '**.gradle'
-      - '**.properties'
-      - '**/src/**'
+    tags:
+      - '**'
   workflow_dispatch:
 
 permissions:
