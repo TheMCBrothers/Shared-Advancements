@@ -129,12 +129,14 @@ unifiedPublishing {
 
         var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
         var modrinthToken = System.getenv("MODRINTH_TOKEN")
+        var changelogFile = file("changelog.md").text
 
         if (curseforgeToken != null) {
             curseforge {
                 token = curseforgeToken
                 id = project.curse_project
                 gameVersions.addAll "Java 17"
+                changelog = changelogFile
             }
         }
 
@@ -143,6 +145,7 @@ unifiedPublishing {
                 token = modrinthToken
                 id = project.modrinth_project
                 version = "$project.version+$project.name"
+                changelog = changelogFile.substring(changelogFile.indexOf('\n'), changelogFile.indexOf('\n\n'))
             }
         }
     }
