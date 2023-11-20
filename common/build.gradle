@@ -30,7 +30,12 @@ publishing {
     }
     repositories {
         maven {
-            url "file://" + System.getenv("local_maven")
+            credentials {
+                username = System.getenv('NEXUS_UNAME')
+                password = System.getenv('NEXUS_PWD')
+            }
+
+            url 'https://nexus.themcbrothers.net/repository/maven-releases/'
         }
     }
 }

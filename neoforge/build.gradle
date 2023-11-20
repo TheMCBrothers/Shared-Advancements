@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.0.41'
     id 'java-library'
+    id 'me.shedaniel.unified-publishing'
 }
 
 base {
@@ -73,7 +74,42 @@ publishing {
     }
     repositories {
         maven {
-            url "file://" + System.getenv("local_maven")
+            credentials {
+                username = System.getenv('NEXUS_UNAME')
+                password = System.getenv('NEXUS_PWD')
+            }
+
+            url 'https://nexus.themcbrothers.net/repository/maven-releases/'
+        }
+    }
+}
+
+unifiedPublishing {
+    project {
+        displayName = "[NeoForge $minecraft_version] v$mod_version"
+        releaseType = project.releaseType
+        gameVersions = [minecraft_version]
+        gameLoaders = [project.name]
+
+        mainPublication jar
+
+        var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
+        var modrinthToken = System.getenv("MODRINTH_TOKEN")
+
+        if (curseforgeToken != null) {
+            curseforge {
+                token = curseforgeToken
+                id = project.curse_project
+                gameVersions.addAll "Java 17"
+            }
+        }
+
+        if (modrinthToken != null) {
+            modrinth {
+                token = modrinthToken
+                id = project.modrinth_project
+                version = "$project.version+$project.name"
+            }
         }
     }
 }

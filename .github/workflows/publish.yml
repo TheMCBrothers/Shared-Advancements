@@ -1,4 +1,4 @@
-name: Java CI
+name: Publish
 
 on:
   push:
@@ -14,5 +14,5 @@ permissions:
   contents: read
 
 jobs:
-  ci:
-    uses: TheMCBrothers/.github/.github/workflows/mod_ci.yml@neo
+  publish:
+    uses: TheMCBrothers/.github/.github/workflows/mod_publish_unified.yml@main
