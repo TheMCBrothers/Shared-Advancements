@@ -1,7 +1,6 @@
 package net.themcbrothers.sharedadvancements;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
@@ -22,7 +21,6 @@ public class SharedAdvancements {
         NeoForge.EVENT_BUS.addListener(this::onPlayerJoin);
     }
 
-    @SubscribeEvent
     private void onCriterion(final AdvancementEvent.AdvancementProgressEvent event) {
         if (!SharedAdvancementsConfig.INSTANCE.enabled.get()) {
             return;
@@ -31,7 +29,6 @@ public class SharedAdvancements {
         CommonClass.progressAdvancement(event.getEntity(), event.getCriterionName(), event.getAdvancement(), SharedAdvancementsConfig.INSTANCE.broadcastAdvancements.get());
     }
 
-    @SubscribeEvent
     private void onPlayerJoin(final PlayerEvent.PlayerLoggedInEvent event) {
         if (!SharedAdvancementsConfig.INSTANCE.enabled.get()) {
             return;

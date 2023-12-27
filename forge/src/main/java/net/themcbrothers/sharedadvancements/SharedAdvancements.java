@@ -4,7 +4,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -22,7 +21,6 @@ public class SharedAdvancements {
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerJoin);
     }
 
-    @SubscribeEvent
     private void onCriterion(final AdvancementEvent.AdvancementProgressEvent event) {
         if (!SharedAdvancementsConfig.INSTANCE.enabled.get()) {
             return;
@@ -31,7 +29,6 @@ public class SharedAdvancements {
         CommonClass.progressAdvancement(event.getEntity(), event.getCriterionName(), event.getAdvancement(), SharedAdvancementsConfig.INSTANCE.broadcastAdvancements.get());
     }
 
-    @SubscribeEvent
     private void onPlayerJoin(final PlayerEvent.PlayerLoggedInEvent event) {
         if (!SharedAdvancementsConfig.INSTANCE.enabled.get()) {
             return;
