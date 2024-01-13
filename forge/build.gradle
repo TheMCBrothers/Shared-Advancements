@@ -96,8 +96,8 @@ publishing {
     repositories {
         maven {
             credentials {
-                username = System.getenv('NEXUS_UNAME')
-                password = System.getenv('NEXUS_PWD')
+                username = System.getenv('PUBLISH_USER')
+                password = System.getenv('PUBLISH_PASSWORD')
             }
 
             url 'https://nexus.themcbrothers.net/repository/maven-releases/'
