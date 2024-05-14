@@ -17,10 +17,8 @@ public class PlayerAdvancementsMixin {
     private ServerPlayer player;
 
     @Inject(method = "award", at = @At(value = "TAIL"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    public void onAward(AdvancementHolder advancement, String criterionKey, CallbackInfoReturnable<Boolean> callbackInfo, boolean success)
-    {
-        if (success)
-        {
+    public void onAward(AdvancementHolder advancement, String criterionKey, CallbackInfoReturnable<Boolean> callbackInfo, boolean success) {
+        if (success) {
             CriterionCallback.EVENT.invoker().awardCriterion(player, advancement, criterionKey);
         }
     }
