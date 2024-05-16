@@ -1,6 +1,6 @@
 package net.themcbrothers.sharedadvancements.event;
 
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.world.entity.player.Player;
 
 /**
@@ -15,5 +15,5 @@ public interface CriterionCallback {
             }
     );
 
-    void awardCriterion(Player player, AdvancementHolder advancement, String criterionName);
+    void awardCriterion(Player player, Advancement advancement, String criterionName);
 }

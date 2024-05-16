@@ -1,6 +1,6 @@
 package net.themcbrothers.sharedadvancements;
 
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +30,7 @@ public class CommonClass {
      * @param advancement   Advancement holder
      * @param broadcast     Broadcast to all players instead of only the team
      */
-    public static void progressAdvancement(Player player, String criterionName, AdvancementHolder advancement, boolean broadcast) {
+    public static void progressAdvancement(Player player, String criterionName, Advancement advancement, boolean broadcast) {
         if (skipEvent) {
             return;
         }
@@ -73,11 +73,11 @@ public class CommonClass {
             return;
         }
 
-        for (AdvancementHolder advancement : server.getAdvancements().getAllAdvancements()) {
+        for (Advancement advancement : server.getAdvancements().getAllAdvancements()) {
             List<String> firstCompleted = (List<String>) first.getAdvancements().getOrStartProgress(advancement).getCompletedCriteria();
             List<String> secondCompleted = (List<String>) second.getAdvancements().getOrStartProgress(advancement).getCompletedCriteria();
 
-            for (String criterion : advancement.value().criteria().keySet()) {
+            for (String criterion : advancement.getCriteria().keySet()) {
                 if (firstCompleted.contains(criterion) && !secondCompleted.contains(criterion)) {
                     second.getAdvancements().award(advancement, criterion);
                 } else if (!firstCompleted.contains(criterion) && secondCompleted.contains(criterion)) {

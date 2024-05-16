@@ -110,7 +110,7 @@ unifiedPublishing {
         displayName = "[Forge $minecraft_version] v$mod_version"
         releaseType = project.releaseType
         gameVersions = [minecraft_version]
-        gameLoaders = [project.name]
+        gameLoaders = ["forge", "neoforge"]
 
         mainPublication jar
 

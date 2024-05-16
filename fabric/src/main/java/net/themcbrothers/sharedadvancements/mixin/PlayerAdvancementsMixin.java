@@ -1,6 +1,6 @@
 package net.themcbrothers.sharedadvancements.mixin;
 
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import net.themcbrothers.sharedadvancements.event.CriterionCallback;
@@ -17,7 +17,7 @@ public class PlayerAdvancementsMixin {
     private ServerPlayer player;
 
     @Inject(method = "award", at = @At(value = "TAIL"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    public void onAward(AdvancementHolder advancement, String criterionKey, CallbackInfoReturnable<Boolean> callbackInfo, boolean success) {
+    public void onAward(Advancement advancement, String criterionKey, CallbackInfoReturnable<Boolean> callbackInfo, boolean success) {
         if (success) {
             CriterionCallback.EVENT.invoker().awardCriterion(player, advancement, criterionKey);
         }
