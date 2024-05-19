@@ -1,13 +1,7 @@
 plugins {
-    id 'java'
-    id 'idea'
-    id 'maven-publish'
+    id 'multiloader-loader'
     id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'me.shedaniel.unified-publishing'
-}
-
-base {
-    archivesName = "$mod_id-fabric"
 }
 
 dependencies {
@@ -15,13 +9,12 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
-    implementation project(":common")
 }
 
 loom {
-    if (project(":common").file("src/main/resources/${mod_id}.accesswidener").exists()) {
-        accessWidenerPath.set(project(":common").file("src/main/resources/${mod_id}.accesswidener"))
+    def aw = project(":common").file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
     }
     mixin {
         defaultRefmapName.set("${mod_id}.refmap.json")
@@ -31,40 +24,13 @@ loom {
             client()
             setConfigName("Fabric Client")
             ideConfigGenerated(true)
-            runDir("run")
+            runDir("runs/client")
         }
         server {
             server()
             setConfigName("Fabric Server")
             ideConfigGenerated(true)
-            runDir("run")
-        }
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    source(project(":common").sourceSets.main.allSource)
-}
-
-processResources {
-    from project(":common").sourceSets.main.resources
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId base.archivesName.get()
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            credentials {
-                username = System.getenv('PUBLISH_USER')
-                password = System.getenv('PUBLISH_PASSWORD')
-            }
-
-            url 'https://nexus.themcbrothers.net/repository/maven-releases/'
+            runDir("runs/server")
         }
     }
 }
@@ -86,8 +52,12 @@ unifiedPublishing {
             curseforge {
                 token = curseforgeToken
                 id = project.curse_project
-                gameVersions.addAll "Java 17"
+                gameVersions.addAll "Java $java_version"
                 changelog = changelogFile
+
+                relations {
+                    depends "fabric-api"
+                }
             }
         }
 
@@ -97,6 +67,10 @@ unifiedPublishing {
                 id = project.modrinth_project
                 version = "$project.version+$project.name"
                 changelog = changelogFile.substring(changelogFile.indexOf('\n'), changelogFile.indexOf('\n\n'))
+
+                relations {
+                    depends "fabric-api"
+                }
             }
         }
     }

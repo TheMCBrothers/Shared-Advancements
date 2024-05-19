@@ -1,8 +1,5 @@
 package net.themcbrothers.sharedadvancements.platform.services;
 
-/**
- * Platform helper class for service
- */
 public interface IPlatformHelper {
     /**
      * Gets the name of the current platform

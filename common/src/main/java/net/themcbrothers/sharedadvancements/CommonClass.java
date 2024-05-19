@@ -1,11 +1,11 @@
 package net.themcbrothers.sharedadvancements;
 
+import net.themcbrothers.sharedadvancements.platform.Services;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.Team;
-import net.themcbrothers.sharedadvancements.platform.Services;
 
 import java.util.List;
 
@@ -19,7 +19,9 @@ public class CommonClass {
      * Initialize Mod
      */
     public static void init() {
-        Constants.LOG.info("Initializing {} for {}", Constants.MOD_NAME, Services.PLATFORM.getPlatformName());
+        if (Services.CONFIG.enabled()) {
+            Constants.LOG.info("Initializing {} for {} in a {} environment!", Constants.MOD_NAME, Services.PLATFORM.getPlatformName(), Services.PLATFORM.getEnvironmentName());
+        }
     }
 
     /**
@@ -28,12 +30,13 @@ public class CommonClass {
      * @param player        Player
      * @param criterionName Criterion name
      * @param advancement   Advancement holder
-     * @param broadcast     Broadcast to all players instead of only the team
      */
-    public static void progressAdvancement(Player player, String criterionName, AdvancementHolder advancement, boolean broadcast) {
-        if (skipEvent) {
+    public static void progressAdvancement(Player player, String criterionName, AdvancementHolder advancement) {
+        if (skipEvent || !Services.CONFIG.enabled()) {
             return;
         }
+
+        boolean broadcast = Services.CONFIG.broadcast();
 
         MinecraftServer server = player.getServer();
         Team team = player.getTeam();
@@ -50,10 +53,15 @@ public class CommonClass {
     /**
      * Syncs advancement progress when a player joins
      *
-     * @param player    Server Player
-     * @param broadcast Broadcast to all players instead of only the team
+     * @param player Server Player
      */
-    public static void playerJoin(ServerPlayer player, boolean broadcast) {
+    public static void playerJoin(ServerPlayer player) {
+        if (!Services.CONFIG.enabled()) {
+            return;
+        }
+
+        boolean broadcast = Services.CONFIG.broadcast();
+
         MinecraftServer server = player.getServer();
         Team team = player.getTeam();
 
