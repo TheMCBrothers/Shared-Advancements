@@ -1,11 +1,11 @@
 package net.themcbrothers.sharedadvancements;
 
-import net.themcbrothers.sharedadvancements.platform.Services;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.Team;
+import net.themcbrothers.sharedadvancements.platform.Services;
 
 import java.util.List;
 
@@ -19,9 +19,7 @@ public class CommonClass {
      * Initialize Mod
      */
     public static void init() {
-        if (Services.CONFIG.enabled()) {
-            Constants.LOG.info("Initializing {} for {} in a {} environment!", Constants.MOD_NAME, Services.PLATFORM.getPlatformName(), Services.PLATFORM.getEnvironmentName());
-        }
+        Constants.LOG.info("Initializing {} for {} in a {} environment!", Constants.MOD_NAME, Services.PLATFORM.getPlatformName(), Services.PLATFORM.getEnvironmentName());
     }
 
     /**
