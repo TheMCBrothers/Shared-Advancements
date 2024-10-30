@@ -38,7 +38,7 @@ unifiedPublishing {
     project {
         displayName = "[Fabric $minecraft_version] v$mod_version"
         releaseType = project.releaseType
-        gameVersions = [minecraft_version]
+        gameVersions = supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name]
 
         mainPublication remapJar

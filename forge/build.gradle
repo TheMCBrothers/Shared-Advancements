@@ -6,6 +6,8 @@ plugins {
 }
 
 mixin {
+    add(sourceSets.main, "${mod_id}.refmap.json")
+
     config("${mod_id}.mixins.json")
 }
 
@@ -88,8 +90,8 @@ unifiedPublishing {
     project {
         displayName = "[Forge $minecraft_version] v$mod_version"
         releaseType = project.releaseType
-        gameVersions = [minecraft_version]
-        gameLoaders = ["forge", "neoforge"]
+        gameVersions = supported_mc_versions.split(", ?").toList()
+        gameLoaders = [project.name]
 
         mainPublication jar
 
