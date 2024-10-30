@@ -54,10 +54,6 @@ unifiedPublishing {
                 id = project.curse_project
                 gameVersions.addAll "Java $java_version"
                 changelog = changelogFile
-
-                relations {
-                    depends "fabric-api"
-                }
             }
         }
 
@@ -67,10 +63,6 @@ unifiedPublishing {
                 id = project.modrinth_project
                 version = "$project.version+$project.name"
                 changelog = changelogFile.substring(changelogFile.indexOf('\n'), changelogFile.indexOf('\n\n'))
-
-                relations {
-                    depends "fabric-api"
-                }
             }
         }
     }

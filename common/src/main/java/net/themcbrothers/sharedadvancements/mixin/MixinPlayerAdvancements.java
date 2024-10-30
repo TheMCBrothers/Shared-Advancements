@@ -1,7 +1,7 @@
 package net.themcbrothers.sharedadvancements.mixin;
 
 import net.themcbrothers.sharedadvancements.CommonClass;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +17,7 @@ public class MixinPlayerAdvancements {
     private ServerPlayer player;
 
     @Inject(method = "award", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    private void award(AdvancementHolder advancement, String criterionKey, CallbackInfoReturnable<Boolean> cir, boolean success) {
+    private void award(Advancement advancement, String criterionKey, CallbackInfoReturnable<Boolean> cir, boolean success) {
         if (success) {
             CommonClass.progressAdvancement(player, criterionKey, advancement);
         }
