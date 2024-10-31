@@ -8,7 +8,6 @@ dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 }
 
 loom {
@@ -39,7 +38,7 @@ unifiedPublishing {
     project {
         displayName = "[Fabric $minecraft_version] v$mod_version"
         releaseType = project.releaseType
-        gameVersions = [minecraft_version]
+        gameVersions = fabric_supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name]
 
         mainPublication remapJar

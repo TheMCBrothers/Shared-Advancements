@@ -43,7 +43,7 @@ unifiedPublishing {
     project {
         displayName = "[NeoForge $minecraft_version] v$mod_version"
         releaseType = project.releaseType
-        gameVersions = [minecraft_version]
+        gameVersions = neoforge_supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name]
 
         mainPublication jar
