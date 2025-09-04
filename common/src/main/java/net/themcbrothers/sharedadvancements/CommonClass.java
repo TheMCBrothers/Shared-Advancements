@@ -3,11 +3,11 @@ package net.themcbrothers.sharedadvancements;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.Team;
 import net.themcbrothers.sharedadvancements.platform.Services;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * Contains all the platform-independent code
@@ -29,23 +29,8 @@ public class CommonClass {
      * @param criterionName Criterion name
      * @param advancement   Advancement holder
      */
-    public static void progressAdvancement(Player player, String criterionName, AdvancementHolder advancement) {
-        if (skipEvent || !Services.CONFIG.enabled()) {
-            return;
-        }
-
-        boolean broadcast = Services.CONFIG.broadcast();
-
-        MinecraftServer server = player.getServer();
-        Team team = player.getTeam();
-
-        if (server != null && (broadcast || team != null)) {
-            skipEvent = true;
-            server.getPlayerList().getPlayers().stream()
-                    .filter(serverPlayer -> broadcast || team.getPlayers().contains(serverPlayer.getScoreboardName()))
-                    .forEach(serverPlayer -> serverPlayer.getAdvancements().award(advancement, criterionName));
-            skipEvent = false;
-        }
+    public static void progressAdvancement(ServerPlayer player, String criterionName, AdvancementHolder advancement) {
+        handle(player, (serverPlayer, server) -> serverPlayer.getAdvancements().award(advancement, criterionName));
     }
 
     /**
@@ -54,31 +39,40 @@ public class CommonClass {
      * @param player Server Player
      */
     public static void playerJoin(ServerPlayer player) {
-        if (!Services.CONFIG.enabled()) {
+        handle(player, (serverPlayer, server) -> syncCriteria(player, serverPlayer, server));
+    }
+
+    /**
+     * Handles advancement sharing with a callback.
+     *
+     * @param player   Server player
+     * @param callback This is called for each player that is
+     *                 - not the given player
+     *                 - and in the same team as the given player (when broadcast is disabled)
+     */
+    private static void handle(final ServerPlayer player, BiConsumer<ServerPlayer, MinecraftServer> callback) {
+        if (skipEvent || !Services.CONFIG.enabled()) {
             return;
         }
 
         boolean broadcast = Services.CONFIG.broadcast();
 
-        MinecraftServer server = player.getServer();
+        // noinspection resource
+        MinecraftServer server = player.level().getServer();
         Team team = player.getTeam();
 
+        // noinspection ConstantValue
         if (server != null && (broadcast || team != null)) {
             skipEvent = true;
             server.getPlayerList().getPlayers().stream()
+                    .filter(serverPlayer -> !serverPlayer.equals(player))
                     .filter(serverPlayer -> broadcast || team.getPlayers().contains(serverPlayer.getScoreboardName()))
-                    .forEach(serverPlayer -> syncCriteria(player, serverPlayer));
+                    .forEach(serverPlayer -> callback.accept(serverPlayer, server));
             skipEvent = false;
         }
     }
 
-    private static void syncCriteria(final ServerPlayer first, final ServerPlayer second) {
-        MinecraftServer server = first.getServer();
-
-        if (server == null || server != second.getServer()) {
-            return;
-        }
-
+    private static void syncCriteria(final ServerPlayer first, final ServerPlayer second, final MinecraftServer server) {
         for (AdvancementHolder advancement : server.getAdvancements().getAllAdvancements()) {
             List<String> firstCompleted = (List<String>) first.getAdvancements().getOrStartProgress(advancement).getCompletedCriteria();
             List<String> secondCompleted = (List<String>) second.getAdvancements().getOrStartProgress(advancement).getCompletedCriteria();
