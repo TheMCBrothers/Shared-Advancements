@@ -1,0 +1,90 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+}
+
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+
+    config "${mod_id}.mixins.json"
+}
+
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+
+    reobf = false
+    copyIdeResources = true
+
+    runs {
+        client {
+            workingDirectory file('runs/client')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Client'
+            mods {
+                modClientRun {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory file('runs/server')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Server'
+            args '--nogui'
+            mods {
+                modServerRun {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transtive dependencies request 6.0+
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+}
+
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
+}
+
+unifiedPublishing {
+    project {
+        displayName = "[Forge $minecraft_version] v$mod_version"
+        releaseType = project.releaseType
+        gameVersions = forge_supported_mc_versions.split(", ?").toList()
+        gameLoaders = [project.name]
+
+        mainPublication jar
+
+        var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
+        var modrinthToken = System.getenv("MODRINTH_TOKEN")
+        var changelogFile = rootProject.file("changelog.md").text
+
+        if (curseforgeToken != null) {
+            curseforge {
+                token = curseforgeToken
+                id = project.curse_project
+                gameVersions.addAll "Java $java_version"
+                changelog = changelogFile
+            }
+        }
+
+        if (modrinthToken != null) {
+            modrinth {
+                token = modrinthToken
+                id = project.modrinth_project
+                version = "$project.version+$project.name"
+                changelog = changelogFile.substring(changelogFile.indexOf('\n'), changelogFile.indexOf('\n\n'))
+            }
+        }
+    }
+}

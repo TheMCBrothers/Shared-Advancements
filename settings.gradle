@@ -71,4 +71,5 @@ plugins {
 rootProject.name = 'Shared-Advancements'
 include("common")
 include("fabric")
+include("forge")
 include("neoforge")
