@@ -1,6 +1,6 @@
-package net.themcbrothers.sharedadvancements.platform;
+package net.themcbrothers.sharedadvancements.neoforge.platform;
 
-import net.themcbrothers.sharedadvancements.SharedAdvancementsConfig;
+import net.themcbrothers.sharedadvancements.neoforge.SharedAdvancementsConfig;
 import net.themcbrothers.sharedadvancements.platform.services.IConfigHelper;
 
 public class NeoForgeConfigHelper implements IConfigHelper {

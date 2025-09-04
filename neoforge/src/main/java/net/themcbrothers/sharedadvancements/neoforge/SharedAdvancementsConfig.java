@@ -1,4 +1,4 @@
-package net.themcbrothers.sharedadvancements;
+package net.themcbrothers.sharedadvancements.neoforge;
 
 import com.electronwill.nightconfig.core.Config;
 import net.neoforged.neoforge.common.ModConfigSpec;

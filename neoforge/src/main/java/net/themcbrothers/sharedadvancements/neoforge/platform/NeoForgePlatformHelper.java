@@ -1,4 +1,4 @@
-package net.themcbrothers.sharedadvancements.platform;
+package net.themcbrothers.sharedadvancements.neoforge.platform;
 
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;

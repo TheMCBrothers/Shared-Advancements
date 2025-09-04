@@ -1,4 +1,4 @@
-package net.themcbrothers.sharedadvancements.platform;
+package net.themcbrothers.sharedadvancements.fabric.platform;
 
 import net.themcbrothers.sharedadvancements.platform.services.IConfigHelper;
 
