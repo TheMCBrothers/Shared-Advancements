@@ -20,15 +20,11 @@ public class SharedAdvancementsConfig {
     public final ModConfigSpec.BooleanValue broadcastAdvancements;
 
     private SharedAdvancementsConfig(ModConfigSpec.Builder config) {
-        config.comment("Common Configuration for Shared Advancements").push("options");
-
         enabled = config
-                .comment("Enables the entire mod")
+                .comment("Enables the Shared Advancements mod")
                 .define("enabled", true);
         broadcastAdvancements = config
-                .comment("Set to true to share advancements with all players")
-                .define("broadcast_advancements", false);
-
-        config.pop();
+                .comment("If set to false you only share advancements with your team instead of all players")
+                .define("broadcast_advancements", true);
     }
 }
