@@ -36,10 +36,10 @@ loom {
 
 unifiedPublishing {
     project {
-        displayName = "[Fabric $minecraft_version] v$mod_version"
+        displayName = "[Fabric $minecraft_version_displayed] v$mod_version"
         releaseType = project.releaseType
         gameVersions = fabric_supported_mc_versions.split(", ?").toList()
-        gameLoaders = [project.name]
+        gameLoaders = [project.name, "quilt"]
 
         mainPublication remapJar
 
@@ -64,7 +64,7 @@ unifiedPublishing {
             modrinth {
                 token = modrinthToken
                 id = project.modrinth_project
-                version = "$project.version+$project.name"
+                version = "$minecraft_version_displayed-$project.version+$project.name"
                 changelog = changelogFile.substring(changelogFile.indexOf('\n'), changelogFile.indexOf('\n\n'))
 
                 relations {

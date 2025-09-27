@@ -33,7 +33,7 @@ dependencies {
 
 unifiedPublishing {
     project {
-        displayName = "[NeoForge $minecraft_version] v$mod_version"
+        displayName = "[NeoForge $minecraft_version_displayed] v$mod_version"
         releaseType = project.releaseType
         gameVersions = neoforge_supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name]
@@ -57,7 +57,7 @@ unifiedPublishing {
             modrinth {
                 token = modrinthToken
                 id = project.modrinth_project
-                version = "$project.version+$project.name"
+                version = "$minecraft_version_displayed-$project.version+$project.name"
                 changelog = changelogFile.substring(changelogFile.indexOf('\n'), changelogFile.indexOf('\n\n'))
             }
         }
