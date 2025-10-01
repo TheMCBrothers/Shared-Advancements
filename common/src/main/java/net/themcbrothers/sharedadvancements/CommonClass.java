@@ -19,7 +19,7 @@ public class CommonClass {
      * Initialize Mod
      */
     public static void init() {
-        Constants.LOG.info("Initializing {} for {} in a {} environment!", Constants.MOD_NAME, Services.PLATFORM.getPlatformName(), Services.PLATFORM.getEnvironmentName());
+        Constants.LOG.info("Initializing {} for {}", Constants.MOD_NAME, Services.PLATFORM.getPlatformName());
     }
 
     /**
