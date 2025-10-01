@@ -13,7 +13,7 @@
         "issues": "https://github.com/${github_repo}/issues"
     },
     "license": "${license}",
-    "icon": "${mod_id}.png",
+    "icon": "pack.png",
     "environment": "*",
     "entrypoints": {
         "main": [
