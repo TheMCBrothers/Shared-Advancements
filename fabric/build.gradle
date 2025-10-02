@@ -34,6 +34,10 @@ loom {
     }
 }
 
+jar {
+    exclude "${mod_id}.mixins.json"
+}
+
 unifiedPublishing {
     project {
         displayName = "[Fabric $minecraft_version_displayed] v$mod_version"
