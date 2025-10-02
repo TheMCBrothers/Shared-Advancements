@@ -4,7 +4,3 @@ plugins {
     // Publishing
     id "me.shedaniel.unified-publishing" version "0.1.+" apply false
 }
-
-allprojects {
-    version = mod_version
-}

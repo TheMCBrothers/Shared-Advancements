@@ -58,7 +58,7 @@ sourceSets.each {
 
 unifiedPublishing {
     project {
-        displayName = "[Forge $minecraft_version_displayed] v$mod_version"
+        displayName = "[Forge $minecraft_version_displayed] v${project.version}"
         releaseType = project.releaseType
         gameVersions = forge_supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name]

@@ -40,7 +40,7 @@ jar {
 
 unifiedPublishing {
     project {
-        displayName = "[Fabric $minecraft_version_displayed] v$mod_version"
+        displayName = "[Fabric $minecraft_version_displayed] v${project.version}"
         releaseType = project.releaseType
         gameVersions = fabric_supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name, "quilt"]

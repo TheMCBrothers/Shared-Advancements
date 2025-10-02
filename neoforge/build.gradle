@@ -33,7 +33,7 @@ dependencies {
 
 unifiedPublishing {
     project {
-        displayName = "[NeoForge $minecraft_version_displayed] v$mod_version"
+        displayName = "[NeoForge $minecraft_version_displayed] v${project.version}"
         releaseType = project.releaseType
         gameVersions = neoforge_supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name]
