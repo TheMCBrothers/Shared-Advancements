@@ -2,10 +2,13 @@ package net.themcbrothers.sharedadvancements;
 
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.scores.Team;
 import net.themcbrothers.sharedadvancements.platform.Services;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -57,11 +60,9 @@ public class CommonClass {
 
         boolean broadcast = Services.CONFIG.broadcast();
 
-        // noinspection resource
-        MinecraftServer server = player.level().getServer();
+        MinecraftServer server = getServer(player);
         Team team = player.getTeam();
 
-        // noinspection ConstantValue
         if (server != null && (broadcast || team != null)) {
             skipEvent = true;
             server.getPlayerList().getPlayers().stream()
@@ -84,6 +85,43 @@ public class CommonClass {
                     first.getAdvancements().award(advancement, criterion);
                 }
             }
+        }
+    }
+
+    private static Method serverGetterMethod;
+
+    static {
+        // Try Entity first
+        serverGetterMethod = findServerGetter(Entity.class);
+
+        if (serverGetterMethod == null) {
+            // Fallback to ServerLevel
+            serverGetterMethod = findServerGetter(ServerLevel.class);
+        }
+
+        if (serverGetterMethod == null) {
+            throw new RuntimeException("Cannot find server getter method");
+        }
+    }
+
+    private static Method findServerGetter(Class<?> clazz) {
+        for (Method method : clazz.getMethods()) {
+            if (method.getParameterCount() == 0 && method.getReturnType() == MinecraftServer.class) {
+                Constants.LOG.info("Server getter method: {}#{}", clazz.getName(), method.getName());
+                return method;
+            }
+        }
+
+        return null;
+    }
+
+    private static MinecraftServer getServer(ServerPlayer player) {
+        try {
+            Object target = serverGetterMethod.getDeclaringClass() == Entity.class ? player : player.level();
+            return (MinecraftServer) serverGetterMethod.invoke(target);
+        } catch (Exception e) {
+            Constants.LOG.error("Could not get Minecraft Server!", e);
+            throw new RuntimeException(e);
         }
     }
 }
