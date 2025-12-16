@@ -1,7 +1,7 @@
 ## [1.21.X] 6.0.0
 - Changed config structure and default values
     - "Broadcast Advancements" is now TRUE by default
-- Supports versions from 1.21 to 1.21.9
+- Supports versions from 1.21 to 1.21.11
 
 ## [1.21.X] 5.0.0
 - Remove dependency on Fabric API
