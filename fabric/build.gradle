@@ -1,13 +1,12 @@
 plugins {
     id 'multiloader-loader'
-    id 'fabric-loom' version '1.13-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom' version '1.15.0-alpha.6'
     id 'me.shedaniel.unified-publishing'
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
 }
 
 loom {
@@ -15,9 +14,7 @@ loom {
     if (aw.exists()) {
         accessWidenerPath.set(aw)
     }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
-    }
+
     runs {
         client {
             client()
@@ -45,7 +42,7 @@ unifiedPublishing {
         gameVersions = fabric_supported_mc_versions.split(", ?").toList()
         gameLoaders = [project.name, "quilt"]
 
-        mainPublication remapJar
+        mainPublication jar
 
         var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
         var modrinthToken = System.getenv("MODRINTH_TOKEN")
