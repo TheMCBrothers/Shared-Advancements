@@ -1,6 +1,6 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.fabricmc.fabric-loom' version '1.15.0-alpha.6'
+    id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
     id 'me.shedaniel.unified-publishing'
 }
 
