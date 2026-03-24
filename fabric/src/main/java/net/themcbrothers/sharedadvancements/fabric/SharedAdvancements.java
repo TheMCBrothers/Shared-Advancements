@@ -6,6 +6,7 @@ import net.themcbrothers.sharedadvancements.CommonClass;
 public class SharedAdvancements implements ModInitializer {
     @Override
     public void onInitialize() {
+        ModConfigManager.load();
         CommonClass.init();
     }
 }
