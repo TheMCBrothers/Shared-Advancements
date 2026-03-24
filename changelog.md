@@ -1,3 +1,7 @@
+## [1.21.X] 6.1.0
+- Fabric now has a config file
+- Supports versions from 1.21 to 1.21.11 (obfuscated)
+
 ## [1.21.X] 6.0.0
 - Changed config structure and default values
     - "Broadcast Advancements" is now TRUE by default
