@@ -7,11 +7,6 @@ plugins {
 neoForge {
     version = neoforge_version
 
-    parchment {
-        minecraftVersion = parchment_minecraft
-        mappingsVersion = parchment_version
-    }
-
     runs {
         configureEach {
             gameDirectory = project.file("runs/${it.name}")
