@@ -1,7 +1,6 @@
 plugins {
     id 'multiloader-loader'
     id 'net.neoforged.moddev'
-    id 'me.shedaniel.unified-publishing'
 }
 
 neoForge {
@@ -9,7 +8,7 @@ neoForge {
 
     runs {
         configureEach {
-            gameDirectory = project.file("runs/${it.name}")
+            gameDirectory = this.mkdir(this.file("runs/${it.name}"))
             ideName = "NeoForge ${it.name.capitalize()} (${project.path})"
         }
         client {
@@ -29,6 +28,26 @@ neoForge {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements'].each { variant ->
+    configurations.named(variant) {
+        attributes {
+            attribute(loaderAttribute, 'neoforge')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName, it.getTaskName(null, 'jarJar')].each { variant ->
+        configurations.named(variant) {
+            attributes {
+                attribute(loaderAttribute, 'neoforge')
+            }
+        }
+    }
+}
+
+// Publishing
 unifiedPublishing {
     project {
         displayName = "[NeoForge $minecraft_version_displayed] v${project.version}"

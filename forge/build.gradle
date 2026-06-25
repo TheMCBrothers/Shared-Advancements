@@ -32,6 +32,26 @@ dependencies {
     implementation minecraft.dependency("net.minecraftforge:forge:$minecraft_version-$forge_version")
 }
 
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements'].each { variant ->
+    configurations.named(variant) {
+        attributes {
+            attribute(loaderAttribute, 'forge')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
+        configurations.named(variant) {
+            attributes {
+                attribute(loaderAttribute, 'forge')
+            }
+        }
+    }
+}
+
+// Publishing
 unifiedPublishing {
     project {
         displayName = "[Forge $minecraft_version_displayed] v${project.version}"
