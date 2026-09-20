@@ -87,9 +87,9 @@ publishing {
             }
 
             if (version.endsWith('-SNAPSHOT')) {
-                url 'https://nexus.themcbrothers.net/repository/maven-snapshots/'
+                url 'https://registry.themcbrothers.net/maven/maven-snapshots/'
             } else {
-                url 'https://nexus.themcbrothers.net/repository/maven-releases/'
+                url 'https://registry.themcbrothers.net/maven/maven-releases/'
             }
         }
     }
