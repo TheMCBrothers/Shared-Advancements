@@ -67,7 +67,7 @@ unifiedPublishing {
             curseforge {
                 token = curseforgeToken
                 id = project.curse_project
-                gameVersions.addAll "Java $java_version"
+                gameVersions.addAll "Java $java_version", "Server"
                 changelog = changelogFile
             }
         }
