@@ -10,6 +10,6 @@ import net.themcbrothers.sharedadvancements.Constants;
 public class SharedAdvancements {
     public SharedAdvancements(ModContainer modContainer) {
         CommonClass.init();
-        modContainer.registerConfig(ModConfig.Type.SERVER, SharedAdvancementsConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.LOCAL, SharedAdvancementsConfig.SPEC);
     }
 }
